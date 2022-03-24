@@ -16,7 +16,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 //use static files in the folder named public
 app.use(express.static("public"));
 
-
+mongoose.connect("mongodb://localhost:27017/todoListDB");
 
 app.get("/", function(req, res) {
 
