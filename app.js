@@ -1,13 +1,13 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const port = 3000;
-
+const mongoose = require('mongoose');
 const date = require(__dirname + "/date.js");
 
 const app = express();
 
-const items = ["Buy Food", "Cook Food", "Eat Food"];
-const workItems = [];
+
+
 app.set("view engine", "ejs");
 
 //must use to parse from body
