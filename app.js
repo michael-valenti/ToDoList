@@ -18,6 +18,20 @@ app.use(express.static("public"));
 
 mongoose.connect("mongodb://localhost:27017/todoListDB");
 
+
+const listSchema = new mongoose.Schema({
+name: {
+  type: String
+}
+
+
+});
+
+
+
+
+
+
 app.get("/", function(req, res) {
 
 //call the function get date stored in the date variable
