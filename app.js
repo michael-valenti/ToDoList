@@ -77,21 +77,20 @@ app.get("/", function(req, res) {
 
 });
 
+//When a new item is added (when plus button is pressed)
 app.post("/", function(req, res) {
 
-  const item = req.body.newItem;
+//store the new item in const itemName
+  const itemName = req.body.newItem;
 
-  if (req.body.list === "Work List") {
-
-    workItems.push(item);
-    res.redirect("/work");
-  } else {
-    items.push(item);
-
-    res.redirect("/");
-
-  }
-
+//create new item using the item name
+  const item = new Item({
+    name: itemName
+  });
+//insert new item into collection
+item.save();
+//after inserting the new item, redirect to the home route to display it
+res.redirect("/");
 });
 
 
