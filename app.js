@@ -83,7 +83,7 @@ app.post("/", function(req, res) {
 //store the new item in const itemName
   const itemName = req.body.newItem;
 
-//create new item using the item name
+//create new item document using the item name model
   const item = new Item({
     name: itemName
   });
@@ -93,6 +93,26 @@ item.save();
 res.redirect("/");
 });
 
+//When the an item is marked as complete, post to the delete route
+app.post("/delete", function(req, res){
+
+//store the Id of the checked item
+const checkedItemId = req.body.checkbox;
+
+//delete the checked item from the collection
+Item.findByIdAndRemove(checkedItemId, function(err){
+  //if there are no errors, let the console know the item was deleted
+  //and update the home page.
+  if(!err){
+    console.log("Successfully deleted item!");
+    res.redirect("/");
+  }else{
+    console.log(err);
+  }
+
+});
+
+});
 
 app.get("/work", function(req, res) {
 
