@@ -87,7 +87,38 @@ app.get("/", function(req, res) {
 
 });
 
+//get the requested list name from the url
+app.get("/:customListName", function(req, res){
+//store requested list name into a const
+const customListName = req.params.customListName;
+//Search List model to see if the list name exists
+List.findOne({name: customListName}, function(err, foundList){
+  if(!err){
+    //If the requested list name doesn't exist
+    if(!foundList){
+      //Create a new list with that name
+      const list = new List({
+        name: customListName,
+        items: defaultItems
+      });
+      //Insert new list to collection
+      list.save();
+      res.redirect("/" + customListName);
+    } else {
+      //If the requested list does exist..
+      //Render it to the screen
+      res.render("list", {
+        listTitle: foundList.name,
+        newListItems: foundList.items
+      });
+    }
+  }
+});
 
+//insert new list containing the custom list name
+//and our default items that we created already.
+
+});
 
 
 //When a new item is added (when plus button is pressed)
