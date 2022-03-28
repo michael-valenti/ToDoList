@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const port = 3000;
 const mongoose = require('mongoose');
 const date = require(__dirname + "/date.js");
-
+const _ = require("lodash");
 const app = express();
 
 
@@ -90,7 +90,7 @@ app.get("/", function(req, res) {
 //get the requested list name from the url
 app.get("/:customListName", function(req, res){
 //store requested list name into a const
-const customListName = req.params.customListName;
+const customListName = _.capitalize(req.params.customListName);
 //Search List model to see if the list name exists
 List.findOne({name: customListName}, function(err, foundList){
   if(!err){
@@ -160,7 +160,7 @@ app.post("/delete", function(req, res) {
 
   const listName = req.body.listName;
 
-
+//check if user is at the home route
   if(listName ==== date.getDate()){
     //delete the checked item from the collection
     Item.findByIdAndRemove(checkedItemId, function(err) {
@@ -172,6 +172,7 @@ app.post("/delete", function(req, res) {
       }
   });
 } else {
+  //search List for matching name. Delete item to the list.
   List.findOneAndUpdate({name: listName}, {$pull: {items: {_id: checkedItemId}}}, function(err, foundList){
     if(!err){
       res.redirect("/"+listName);
