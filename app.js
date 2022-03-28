@@ -158,17 +158,26 @@ app.post("/delete", function(req, res) {
   //store the Id of the checked item
   const checkedItemId = req.body.checkbox;
 
-  //delete the checked item from the collection
-  Item.findByIdAndRemove(checkedItemId, function(err) {
-    //if there are no errors, let the console know the item was deleted
-    //and update the home page.
-    if (!err) {
-      console.log("Successfully deleted item!");
-      res.redirect("/");
-    } else {
-      console.log(err);
-    }
+  const listName = req.body.listName;
+
+
+  if(listName ==== date.getDate()){
+    //delete the checked item from the collection
+    Item.findByIdAndRemove(checkedItemId, function(err) {
+      //if there are no errors, let the console know the item was deleted
+      //and update the home page.
+      if (!err) {
+        console.log("Successfully deleted item!");
+        res.redirect("/");
+      }
   });
+} else {
+  List.findOneAndUpdate({name: listName}, {$pull: {items: {_id: checkedItemId}}}, function(err, foundList){
+    if(!err){
+      res.redirect("/"+listName);
+    }
+  })
+}
 
 });
 
