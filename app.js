@@ -127,14 +127,29 @@ app.post("/", function(req, res) {
   //store the new item in const itemName
   const itemName = req.body.newItem;
 
+  const listName = req.body.list;
+
   //create new item document using the item name model
   const item = new Item({
     name: itemName
   });
-  //insert new item into collection
-  item.save();
-  //after inserting the new item, redirect to the home route to display it
-  res.redirect("/");
+
+  //check if user is at the home route
+  if(listName === date.getDate()){
+    //insert new item into collection
+    item.save();
+    //after inserting the new item, redirect to the home route to display it
+    res.redirect("/");
+  }else { //find the list that matches the list name
+    List.findOne({name: listName}, function(err, foundList){
+      //insert new item to items array
+      foundList.items.push(item);
+      foundList.save();
+      res.redirect("/" + listName);
+    })
+
+  }
+
 });
 
 //When the an item is marked as complete, post to the delete route
