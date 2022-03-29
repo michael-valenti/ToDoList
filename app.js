@@ -4,6 +4,7 @@ const port = 3000;
 const mongoose = require('mongoose');
 const date = require(__dirname + "/date.js");
 const _ = require("lodash");
+
 const app = express();
 
 
@@ -18,7 +19,7 @@ app.use(bodyParser.urlencoded({
 //use static files in the folder named public
 app.use(express.static("public"));
 
-mongoose.connect("mongodb://localhost:27017/toDoListDB");
+mongoose.connect("mongodb+srv://admin-mike:<password>@cluster0.bsfp4.mongodb.net/toDoListDB?retryWrites=true&w=majority");
 
 //create items schema
 const itemsSchema = new mongoose.Schema({
