@@ -1,6 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const port = 3000;
+
 require('dotenv').config();
 const mongoose = require('mongoose');
 const date = require(__dirname + "/date.js");
