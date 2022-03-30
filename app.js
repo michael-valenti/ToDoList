@@ -1,12 +1,12 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const port = 3000;
+require('dotenv').config();
 const mongoose = require('mongoose');
 const date = require(__dirname + "/date.js");
 const _ = require("lodash");
-
 const app = express();
-
+const mongoPass = process.env.MONGO_DB_PASS;
 
 
 app.set("view engine", "ejs");
@@ -19,7 +19,7 @@ app.use(bodyParser.urlencoded({
 //use static files in the folder named public
 app.use(express.static("public"));
 
-mongoose.connect("mongodb+srv://admin-mike:<password>@cluster0.bsfp4.mongodb.net/toDoListDB?retryWrites=true&w=majority");
+mongoose.connect("mongodb+srv://admin-mike:"+mongoPass+"@cluster0.bsfp4.mongodb.net/toDoListDB");
 
 //create items schema
 const itemsSchema = new mongoose.Schema({
@@ -162,7 +162,7 @@ app.post("/delete", function(req, res) {
   const listName = req.body.listName;
 
 //check if user is at the home route
-  if(listName ==== date.getDate()){
+  if(listName === date.getDate()){
     //delete the checked item from the collection
     Item.findByIdAndRemove(checkedItemId, function(err) {
       //if there are no errors, let the console know the item was deleted
@@ -193,5 +193,6 @@ app.get("/about", function(req, res) {
 app.listen(port, function() {
 
   console.log("Server started on port 3000");
+  
 
 });
